@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quantum calc</title>
+    <style>
+      body {
+        background-color: rgb(49, 49, 49);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .calc {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 65vh;
+        gap: 0.2em;
+        flex-flow: column;
+        align-items: flex-start;
+        width: fit-content;
+      }
+      input[type="number"],
+      input[type="submit"],
+      input[type="number"]:focus,
+      button {
+        border: 0.05em solid black;
+        font-family: monospace;
+        border-radius: 3px;
+        outline: none;
+        background-color: rgb(71, 71, 71);
+        max-width: 9em;
+        appearance: textfield;
+        font-size: 5em;
+      }
+      span {
+        font-family: monospace;
+      }
+      #submit {
+        align-self: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="calc">
+      <span>Usage L/Mkm</span
+      ><input type="number" placeholder="L/Mkm" name="" id="fuel-usage" />
+      <span>Km</span
+      ><input type="number" placeholder="Km" name="" id="max-distance" />
+      <span>Quantum L</span
+      ><input type="number" placeholder="Quantum" name="" id="vehicle-fuel" />
+      <button id="submit">Submit/Reset</button>
+    </div>
+    <script>
+      let fuelUsage = document.querySelector("#fuel-usage");
+      let maxDistance = document.querySelector("#max-distance");
+      let vehicleFuel = document.querySelector("#vehicle-fuel");
+      let submit = document.querySelector("#submit");
+
+      console.log(fuelUsage, maxDistance, vehicleFuel);
+
+      const calculate = (usage, distance, fuel) => {
+        if (usage == "" && distance > 0 && fuel > 0) {
+          fuelUsage.value = 
+            ((parseFloat(distance) * parseFloat(fuel)) / 1000000).toFixed(3);
+          maxDistance.placeholder = maxDistance.value;
+          maxDistance.value = "";
+          vehicleFuel.placeholder = vehicleFuel.value;
+          vehicleFuel.value = "";
+        } else if (usage > 0 && distance == "" && fuel > 0) {
+          fuelUsage.placeholder = fuelUsage.value;
+          fuelUsage.value = "";
+          maxDistance.value = 
+            ((parseFloat(fuel) / parseFloat(usage)) * 1000000).toFixed(3);
+          vehicleFuel.placeholder = vehicleFuel.value;
+          vehicleFuel.value = "";
+        } else if (usage > 0 && distance > 0 && fuel == "") {
+          fuelUsage.placeholder = fuelUsage.value;
+          fuelUsage.value = "";
+          maxDistance.placeholder = maxDistance.value;
+          maxDistance.value = "";
+          vehicleFuel.value =
+            ((parseFloat(distance) * parseFloat(usage)) / 1000000).toFixed(3);
+        } else {
+          fuelUsage.value = "";
+          maxDistance.value = "";
+          vehicleFuel.value = "";
+        }
+      };
+
+      submit.addEventListener("click", () => {
+        calculate(fuelUsage.value, maxDistance.value, vehicleFuel.value);
+      });
+    </script>
+  </body>
+</html>
